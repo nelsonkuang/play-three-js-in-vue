@@ -11,8 +11,8 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
 import vertexShader from './vs.glsl'
 import fragmentShader from './fs.glsl'
-const mapImg = './static/img/earth_1.jpg'
-const heightMapImg = './static/img/earth_1-height-map.jpg'
+let gui = null
+let timer = null
 export default {
   data () {
     return {
@@ -22,7 +22,6 @@ export default {
   },
   mounted () {
     let camera, orbitControl, scene, renderer, stats
-    let gui
     const $canvasContainer = this.$refs.canvas
     function init () {
       const earthShader = {
@@ -30,6 +29,8 @@ export default {
         fragmentShader
       }
       // threejs
+      const mapImg = './static/img/earth_1.jpg'
+      const heightMapImg = './static/img/earth_1-height-map.jpg'
       const options = {
         radius: 100, // 地球的半径
         segments: 640, // 地球的分段数 数量越高 地球精度越高
@@ -104,7 +105,7 @@ export default {
       orbitControl = new OrbitControls(camera, renderer.domElement)
       orbitControl.minDistrance = 20
       orbitControl.maxDistrance = 50
-      orbitControl.maxPolarAngle = Math.PI / 2
+      orbitControl.maxPolarAngle = Math.PI
 
       // stats
       stats = new Stats()
@@ -115,7 +116,7 @@ export default {
       // gui
       GUI.TEXT_CLOSED = '关闭控制面板'
       GUI.TEXT_OPEN = '打开控制面板'
-      gui = gui || new GUI()
+      gui = new GUI()
       gui.width = 300
       gui.domElement.style.userSelect = 'none'
 
@@ -133,7 +134,6 @@ export default {
           earth.material.uniforms.u_height.value = options.maxHeight
         })
       fl.open()
-      console.log(gui)
 
       // resize
       window.addEventListener('resize', onWindowResize, false)
@@ -153,7 +153,7 @@ export default {
 
     // 动画
     function animate () {
-      requestAnimationFrame(animate)
+      timer = requestAnimationFrame(animate)
       render()
     }
 
@@ -161,6 +161,10 @@ export default {
     animate()
   },
   beforeDestroy () {
+    timer && cancelAnimationFrame(timer)
+    gui && gui.destroy()
+    gui = null
+    timer = null
   }
 }
 </script>
