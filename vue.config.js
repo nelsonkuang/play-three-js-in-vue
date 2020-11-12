@@ -12,7 +12,7 @@ module.exports = {
   outputDir: 'dist',
   assetsDir: 'static',
   productionSourceMap: false,
-  configureWebpack: {
+/*   configureWebpack: {
     plugins: [
       // 复制到自定义静态源
       new CopyWebpackPlugin(
@@ -27,5 +27,5 @@ module.exports = {
         }
       )
     ]
-  }
+  } */
 }

@@ -14,7 +14,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: '玩转 Canvas & Webgl'
+      msg: '玩转 Three.js & GLSL'
     }
   },
   computed: {

@@ -19,15 +19,7 @@ const routes = [
     meta: {
       title: 'Canvas 可控贝塞尔曲线（Cubic Bézier Curves）'
     }
-  },
-  {
-    path: '/demo-1-dash',
-    name: 'Demo1Dash',
-    component: () => import('@/views/demo-1/dash'),
-    meta: {
-      title: 'Canvas 可控贝塞尔曲线（Cubic Bézier Curves） - 虚线'
-    }
-  },
+  }
 ]
 
 const router = new VueRouter({
