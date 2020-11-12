@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import glsl from './glsl'
 
 Vue.use(VueRouter)
 
@@ -12,14 +13,7 @@ const routes = [
       title: '主页'
     }
   },
-  {
-    path: '/demo-1',
-    name: 'Demo1',
-    component: () => import('@/views/demo-1/index'),
-    meta: {
-      title: 'Canvas 可控贝塞尔曲线（Cubic Bézier Curves）'
-    }
-  }
+  ...glsl
 ]
 
 const router = new VueRouter({
