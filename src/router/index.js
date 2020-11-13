@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import glsl from './glsl'
+import normal from './normal'
 
 Vue.use(VueRouter)
 
@@ -13,7 +14,8 @@ const routes = [
       title: '主页'
     }
   },
-  ...glsl
+  ...glsl,
+  ...normal
 ]
 
 const router = new VueRouter({
