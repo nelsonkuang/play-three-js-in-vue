@@ -26,6 +26,7 @@ export default {
       projection: 'normal',
       autoRotate: true,
       reflectivity: 1.0,
+      refractionRatio: 0.98,
       background: false,
       exposure: 1.0,
       gemColor: 'Green'
@@ -72,7 +73,7 @@ export default {
 
       const manager = new THREE.LoadingManager()
       manager.onProgress = function (item, loaded, total) {
-        console.log(item, loaded, total);
+        console.log(item, loaded, total)
       }
 
       const loader = new OBJLoader(manager)
@@ -98,6 +99,7 @@ export default {
           hdrCubeRenderTarget = pmremGenerator.fromEquirectangular(hdrEquirect) // 全景贴图 royal_esplanade_1k
           pmremGenerator.dispose()
           gemFrontMaterial.envMap = gemBackMaterial.envMap = hdrCubeRenderTarget.texture // 表面使用全景 使用设置envMap环境贴图创建反光效果
+          gemFrontMaterial.envMap.mapping = gemBackMaterial.envMap.mapping = THREE.EquirectangularRefractionMapping
           gemFrontMaterial.needsUpdate = gemBackMaterial.needsUpdate = true
           hdrEquirect.dispose()
         })
@@ -145,6 +147,7 @@ export default {
       GUI.TEXT_OPEN = '打开控制面板'
       gui = new GUI()
       gui.add(params, 'reflectivity', 0, 1).name('反射率')
+      gui.add(params, 'refractionRatio', 0, 1).name('折射率')
       gui.add(params, 'exposure', 0.1, 2).name('曝光率')
       gui.add(params, 'autoRotate').name('自动旋转')
       gui.add(params, 'gemColor', {
@@ -175,6 +178,7 @@ export default {
     function render () {
       if (gemBackMaterial !== undefined && gemFrontMaterial !== undefined) {
         gemFrontMaterial.reflectivity = gemBackMaterial.reflectivity = params.reflectivity
+        gemFrontMaterial.refractionRatio = gemBackMaterial.refractionRatio = params.refractionRatio
         let newColor = gemBackMaterial.color
         switch (params.gemColor) {
           case 'Blue': newColor = new THREE.Color(0x000088)
