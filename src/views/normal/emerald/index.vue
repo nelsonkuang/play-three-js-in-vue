@@ -26,10 +26,10 @@ export default {
       projection: 'normal',
       autoRotate: true,
       reflectivity: 1.0,
-      refractionRatio: 0.98,
+      refractionRatio: 0.2,
       background: false,
       exposure: 1.0,
-      gemColor: 'Green'
+      gemColor: 'White'
     }
     let camera, scene, renderer
     let gemBackMaterial, gemFrontMaterial
