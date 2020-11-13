@@ -97,7 +97,7 @@ export default {
         .load('royal_esplanade_1k.hdr', function (hdrEquirect) {
           hdrCubeRenderTarget = pmremGenerator.fromEquirectangular(hdrEquirect) // 全景贴图 royal_esplanade_1k
           pmremGenerator.dispose()
-          gemFrontMaterial.envMap = gemBackMaterial.envMap = hdrCubeRenderTarget.texture // 表面使用全景贴图
+          gemFrontMaterial.envMap = gemBackMaterial.envMap = hdrCubeRenderTarget.texture // 表面使用全景 使用设置envMap环境贴图创建反光效果
           gemFrontMaterial.needsUpdate = gemBackMaterial.needsUpdate = true
           hdrEquirect.dispose()
         })
