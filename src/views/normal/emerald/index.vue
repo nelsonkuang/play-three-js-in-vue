@@ -33,9 +33,9 @@ export default {
       background: false,
       exposure: 1.0,
       gemColor: 'White',
-      bloomStrength: 0.3,
-      bloomThreshold: 0.5,
-      bloomRadius: 1
+      bloomStrength: 0.61,
+      bloomThreshold: 0.95,
+      bloomRadius: 0.1
     }
     let camera, scene, renderer
     let renderScene, bloomPass, composer
