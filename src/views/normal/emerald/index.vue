@@ -11,6 +11,9 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
 let gui = null
 let timer = null
 export default {
@@ -29,9 +32,13 @@ export default {
       refractionRatio: 0.2,
       background: false,
       exposure: 1.0,
-      gemColor: 'White'
+      gemColor: 'White',
+      bloomStrength: 0.3,
+      bloomThreshold: 0.5,
+      bloomRadius: 1
     }
     let camera, scene, renderer
+    let renderScene, bloomPass, composer
     let gemBackMaterial, gemFrontMaterial
     let hdrCubeRenderTarget
 
@@ -146,8 +153,8 @@ export default {
       GUI.TEXT_CLOSED = '关闭控制面板'
       GUI.TEXT_OPEN = '打开控制面板'
       gui = new GUI()
-      gui.add(params, 'reflectivity', 0, 1).name('反射率')
-      gui.add(params, 'refractionRatio', 0, 1).name('折射率')
+      gui.add(params, 'reflectivity', 0, 2).name('反射率')
+      gui.add(params, 'refractionRatio', 0, 3).name('折射率')
       gui.add(params, 'exposure', 0.1, 2).name('曝光率')
       gui.add(params, 'autoRotate').name('自动旋转')
       gui.add(params, 'gemColor', {
@@ -157,7 +164,20 @@ export default {
         '白色': 'White',
         '黑色': 'Black'
       }).name('宝石颜色')
+      gui.add(params, 'bloomThreshold', 0.0, 1.0).name('光华阙值')
+      gui.add(params, 'bloomStrength', 0.0, 10.0).name('光华强度')
+      gui.add(params, 'bloomRadius', 0.0, 1.0).name('光华半径')
       gui.open()
+
+      renderScene = new RenderPass(scene, camera)
+      bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85)
+      bloomPass.threshold = params.bloomThreshold
+      bloomPass.strength = params.bloomStrength
+      bloomPass.radius = params.bloomRadius
+
+      composer = new EffectComposer(renderer)
+      composer.addPass(renderScene)
+      composer.addPass(bloomPass)
     }
 
     function onWindowResize () {
@@ -202,8 +222,12 @@ export default {
           object.rotation.y += 0.005
         }
       }
-      renderer.render(scene, camera)
+      // renderer.render(scene, camera)
+      bloomPass.threshold = params.bloomThreshold
+      bloomPass.strength = params.bloomStrength
+      bloomPass.radius = params.bloomRadius
 
+      composer.render()
     }
   },
   beforeDestroy () {
