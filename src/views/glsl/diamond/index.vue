@@ -9,8 +9,8 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
+import { OBJLoader2 } from 'three/examples/jsm/loaders/OBJLoader2'
+import { getFrontMaterial, getBackMaterial } from './shader-material'
 let gui = null
 let timer = null
 export default {
@@ -24,14 +24,17 @@ export default {
     let container = this.$refs.canvas, stats
     const params = {
       autoRotate: true,
-      reflectivity: 1.0,
-      background: false,
-      exposure: 1.0,
-      gemColor: 'White'
+      reflectionStrength: 2.0,
+      // exposure: 1.1,
+      environmentLight: 0.4,
+      Color: [1, 1, 1], // RGB array
+      emission: 0.19,
+      backAlpha: 0.5,
+      frontAlpha: 0.5
     }
     let camera, scene, renderer
-    let gemBackMaterial, gemFrontMaterial
-    let hdrCubeRenderTarget
+    let cubeTexture, refractTexture
+    let pmremGenerator
     const objects = []
     init()
     animate()
@@ -39,62 +42,46 @@ export default {
       camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200)
       camera.position.set(- 1.8, 0.6, 2.7)
       scene = new THREE.Scene()
-      scene.background = new THREE.Color(0x000000);
       renderer = new THREE.WebGLRenderer({ antialias: true })
-      gemBackMaterial = new THREE.MeshPhysicalMaterial({
-        map: null,
-        color: 0x0000ff,
-        metalness: 1,
-        roughness: 0,
-        opacity: 0.5,
-        side: THREE.BackSide,
-        transparent: true,
-        envMapIntensity: 5,
-        premultipliedAlpha: true
-        // TODO: Add custom blend mode that modulates background color by this materials color.
-      })
-      gemFrontMaterial = new THREE.MeshPhysicalMaterial({
-        map: null,
-        color: 0x0000ff,
-        metalness: 0,
-        roughness: 0,
-        opacity: 0.25,
-        side: THREE.FrontSide,
-        transparent: true,
-        envMapIntensity: 10,
-        premultipliedAlpha: true
-      })
+      cubeTexture = new THREE.CubeTextureLoader().setPath('./static/img/cube/Park2/')
+        .load(
+          [
+            'px.jpg',
+            'nx.jpg',
+            'py.jpg',
+            'ny.jpg',
+            'pz.jpg',
+            'nz.jpg'
+          ]
+        )
+      cubeTexture.mapping = THREE.CubeRefractionMapping
+      refractTexture = new THREE.CubeTextureLoader().setPath('./static/img/cube/12/')
+        .load(
+          [
+            '4.jpg',
+            '4.jpg',
+            '4.jpg',
+            '4.jpg',
+            '4.jpg',
+            '4.jpg'
+          ]
+        )
+      refractTexture.mapping = THREE.CubeRefractionMapping
       const manager = new THREE.LoadingManager()
       manager.onProgress = function (item, loaded, total) {
-        console.log(item, loaded, total);
+        console.log(item, loaded, total)
       }
-      const loader = new OBJLoader(manager)
+      const loader = new OBJLoader2(manager)
       loader.load('./static/models/obj/diamonds/RoundCut.obj', function (object) {
-        object.traverse(function (child) {
-          if (child instanceof THREE.Mesh) {
-            child.material = gemBackMaterial
-            const second = child.clone()
-            second.material = gemFrontMaterial
-            const parent = new THREE.Group()
-            parent.add(second)
-            parent.add(child)
-            scene.add(parent)
-            objects.push(parent)
-          }
-        })
+        const backModel = object.children[0]
+        backModel.material = getBackMaterial(THREE, cubeTexture, refractTexture)
+        const frontModel = backModel.clone(true)
+        frontModel.material = getFrontMaterial(THREE, cubeTexture, refractTexture)
+        backModel.add(frontModel)
+        objects.push(backModel)
+        scene.add(backModel)
+        scene.background = cubeTexture
       })
-      new RGBELoader()
-        .setDataType(THREE.UnsignedByteType)
-        .setPath('./static/textures/equirectangular/')
-        .load('royal_esplanade_1k.hdr', function (hdrEquirect) {
-          hdrCubeRenderTarget = pmremGenerator.fromEquirectangular(hdrEquirect) // 全景贴图 royal_esplanade_1k
-          pmremGenerator.dispose()
-          gemFrontMaterial.envMap = gemBackMaterial.envMap = hdrCubeRenderTarget.texture // 表面使用全景 使用设置envMap环境贴图创建反光效果
-          gemFrontMaterial.needsUpdate = gemBackMaterial.needsUpdate = true
-          hdrEquirect.dispose()
-        })
-      const pmremGenerator = new THREE.PMREMGenerator(renderer)
-      pmremGenerator.compileEquirectangularShader()
       // Lights
       scene.add(new THREE.AmbientLight(0x222222)) // 环境光
       const pointLight1 = new THREE.PointLight(0xffffff) // 点光源
@@ -110,11 +97,14 @@ export default {
       const pointLight4 = new THREE.PointLight(0xffffff)
       pointLight4.position.set(0, 0, 150)
       scene.add(pointLight4)
+      renderer.debug.checkShaderErrors = false
       renderer.setPixelRatio(window.devicePixelRatio)
       renderer.setSize(container.clientWidth, container.clientHeight)
-      renderer.shadowMap.enabled = true
+      // renderer.shadowMap.enabled = true
       container.appendChild(renderer.domElement)
       renderer.outputEncoding = THREE.sRGBEncoding
+      pmremGenerator = new THREE.PMREMGenerator(renderer)
+      pmremGenerator.compileEquirectangularShader()
       stats = new Stats()
       container.appendChild(stats.dom)
       const controls = new OrbitControls(camera, renderer.domElement)
@@ -126,16 +116,28 @@ export default {
       GUI.TEXT_CLOSED = '关闭控制面板'
       GUI.TEXT_OPEN = '打开控制面板'
       gui = new GUI()
-      gui.add(params, 'reflectivity', 0, 1).name('反射率')
-      gui.add(params, 'exposure', 0.1, 2).name('曝光率')
+      gui.addColor(params, 'Color').name('颜色').onChange((value) => {
+        setModelUniformsC3("Color", value)
+      })
+      gui.add(params, 'reflectionStrength', 0, 2).name('反射强度').onChange((value) => {
+        setModelUniformsV1("reflectionStrength", value)
+      })
+    //   gui.add(params, 'exposure', 0.1, 2).name('曝光').onChange( function ( value ) {
+    //    renderer.toneMappingExposure = Math.pow( value, 4.0 )
+    // } )
+      gui.add(params, 'environmentLight', 0, 2).name('环境光').onChange((value) => {
+        setModelUniformsV1("environmentLight", value)
+      })
+      gui.add(params, 'emission', 0, 2).name('发射').onChange((value) => {
+        setModelUniformsV1("emission", value)
+      })
+      gui.add(params, 'backAlpha', 0, 1).name('前面透明度').onChange((value) => {
+        setModelUniformsV1("backAlpha", value)
+      })
+      gui.add(params, 'frontAlpha', 0, 1).name('背面透明度').onChange((value) => {
+        setModelUniformsV1("frontAlpha", value)
+      })
       gui.add(params, 'autoRotate').name('自动旋转')
-      gui.add(params, 'gemColor', {
-        '蓝色': 'Blue',
-        '绿色': 'Green',
-        '红色': 'Red',
-        '白色': 'White',
-        '黑色': 'Black'
-      }).name('宝石颜色')
       gui.open()
     }
     function onWindowResize () {
@@ -145,7 +147,28 @@ export default {
       camera.updateProjectionMatrix()
       renderer.setSize(width, height)
     }
-    //
+    function setModelUniformsV3 (item, param, v3) {
+      item.material.uniforms[param].value[0] = v3.x;
+      item.material.uniforms[param].value[1] = v3.y;
+      item.material.uniforms[param].value[2] = v3.z;
+      item.children[0].material.uniforms[param].value[0] = v3.x;
+      item.children[0].material.uniforms[param].value[1] = v3.y;
+      item.children[0].material.uniforms[param].value[2] = v3.z;
+    }
+
+    function setModelUniformsV1 (param, v1) {
+      objects.forEach((item) => {
+        item.material.uniforms[param].value = v1;
+        item.children[0].material.uniforms[param].value = v1;
+      });
+    }
+
+    function setModelUniformsC3 (param, value) {
+      objects.forEach((item) => {
+        item.material.uniforms[param].value = new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
+        item.children[0].material.uniforms[param].value = new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
+      });
+    }
     function animate () {
       timer = requestAnimationFrame(animate)
       stats.begin()
@@ -153,24 +176,14 @@ export default {
       stats.end()
     }
     function render () {
-      if (gemBackMaterial !== undefined && gemFrontMaterial !== undefined) {
-        gemFrontMaterial.reflectivity = gemBackMaterial.reflectivity = params.reflectivity
-        let newColor = gemBackMaterial.color
-        switch (params.gemColor) {
-          case 'Blue': newColor = new THREE.Color(0x000088)
-            break
-          case 'Red': newColor = new THREE.Color(0x880000)
-            break
-          case 'Green': newColor = new THREE.Color(0x008800)
-            break
-          case 'White': newColor = new THREE.Color(0x888888)
-            break
-          case 'Black': newColor = new THREE.Color(0x0f0f0f)
-            break
-        }
-        gemBackMaterial.color = gemFrontMaterial.color = newColor
-      }
-      renderer.toneMappingExposure = params.exposure
+      let mat = new THREE.Matrix4();
+      let modlePos = new THREE.Vector3();
+      modlePos.copy(camera.position);
+      objects.forEach((item) => {
+        modlePos.applyMatrix4(mat.getInverse(item.matrix));
+        setModelUniformsV3(item, "cameraWorldPos", modlePos);
+        //item.rotation.x += 0.01;
+      })
       camera.lookAt(scene.position)
       if (params.autoRotate) {
         for (let i = 0, l = objects.length; i < l; i++) {

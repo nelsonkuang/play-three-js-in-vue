@@ -10,15 +10,15 @@ vec3 refract2(const in vec3 i, const in vec3 n, const in float eta)
   }
 }
 uniform samplerCube tCube;
-uniform samplerCube RefractTex;
+uniform samplerCube refractTex;
 uniform vec3 Color;
-uniform float EnvironmentLight;
-uniform float Emission;
+uniform float environmentLight;
+uniform float emission;
 uniform float backAlpha;
 varying vec3 uv2;
 void main() {
-  vec3 refraction = textureCube(RefractTex, uv2).xyz;
+  vec3 refraction = textureCube(refractTex, uv2).xyz;
   vec4 reflection = textureCube(tCube, uv2);
-  vec3 multiplier = reflection.xyz * EnvironmentLight + vec3(Emission, Emission, Emission);
+  vec3 multiplier = reflection.xyz * environmentLight + vec3(emission, emission, emission);
   gl_FragColor = vec4(refraction.xyz *multiplier.xyz , backAlpha);
 }
