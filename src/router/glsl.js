@@ -14,6 +14,14 @@ const glsl = [
     meta: {
       title: 'Three.js 实战 开源实例魔改 钻石'
     }
+  },
+  {
+    path: '/glsl/diamond-ii',
+    name: 'DiamondII',
+    component: () => import('@/views/glsl/diamond-ii/index'),
+    meta: {
+      title: 'Three.js 实战 开源实例魔改 钻石 II'
+    }
   }
 ]
 export default glsl
