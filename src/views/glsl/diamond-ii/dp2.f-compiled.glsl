@@ -1,6 +1,7 @@
 #extension GL_EXT_shader_texture_lod : enable
 precision highp float;
 precision highp int;
+#define GLSLIFY 1
 #define HIGH_PRECISION
 #define SHADER_NAME ShaderMaterial
 #define RAY_BOUNCES 5

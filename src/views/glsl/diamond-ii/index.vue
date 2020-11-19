@@ -61,6 +61,7 @@ export default {
             'dpEnvMap.png'
           ]
         )
+      envMap.mapping = THREE.CubeRefractionMapping
       hdrCubeMap = new HDRCubeTextureLoader()
         .setPath('./static/textures/equirectangular/')
         .setDataType(THREE.UnsignedByteType)
@@ -72,6 +73,7 @@ export default {
           hdrCubeMap.needsUpdate = true
 
           cubeMap = hdrCubeRenderTarget
+          cubeMap.mapping = THREE.CubeRefractionMapping
           const gltfLoader = new GLTFLoader()
           gltfLoader.load('./static/models/glb/diamond.glb', function (data) {
             gltf = data
@@ -79,14 +81,15 @@ export default {
             object.traverse(function (node) {
               if (node.material && (node.material.isMeshStandardMaterial ||
                 (node.material.isShaderMaterial && node.material.envMap !== undefined))) {
-                node.material = getDpMaterial(THREE, cubeMap, envMap, THREE.FrontSide)
+                node.material = getDpMaterial(THREE, envMap, cubeMap, THREE.FrontSide)
                 const second = node.clone()
-                second.material = getDpMaterial(THREE, cubeMap, envMap, THREE.BackSide)
+                second.material = getDpMaterial(THREE, envMap, cubeMap, THREE.BackSide)
                 object.add(second)
                 meshes = [node, second]
               }
             })
             scene.add(object)
+            scene.background = envMap
             animate()
           }, undefined, function (error) {
             console.error(error)
