@@ -72,15 +72,15 @@ export const getDpMaterial = function (THREE, cubeMap, envMap, side) {
             'radius': { value: 5.0 },
             'rIndexDelta': { value: 0.5 },
             'normalOffset': { value: 1.5 },
-            'squashFactor': { value: 1.0 },
-            'distanceOffset': { value: 11.9 },
-            'geometryFactor': { value: 20.0 },
-            'colorCorrection': { value: [-0.0009, -0.001, -0.0009] },
-            'boostFactors': { value: [1, 10, 10] },
-            'centreOffset': { value: [1, 1, 1] },
-            'opacity': { value: 0.8 },
+            'squashFactor': { value: 20.0 },
+            'distanceOffset': { value: 5.9 },
+            'geometryFactor': { value: 10.0 },
+            'colorCorrection': { value: [-0.5, -0.6, -0.7] },
+            'boostFactors': { value: [1, 1, 1] },
+            'centreOffset': { value: [0.5, 0.5, 0.5] },
+            'opacity': { value: 0.5 },
             'i_toneMappingExposure': { value: 20.0 },
-            'i_toneMappingWhitePoint': { value: 1.0 }
+            'i_toneMappingWhitePoint': { value: 5.0 }
         },
     })
 }

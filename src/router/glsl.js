@@ -20,7 +20,7 @@ const glsl = [
     name: 'DiamondII',
     component: () => import('@/views/glsl/diamond-ii/index'),
     meta: {
-      title: 'Three.js 实战 开源实例魔改 钻石 II'
+      title: 'Three.js 实战 愤怒的钻石'
     }
   }
 ]
