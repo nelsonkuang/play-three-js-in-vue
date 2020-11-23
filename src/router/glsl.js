@@ -20,7 +20,23 @@ const glsl = [
     name: 'Emboss',
     component: () => import('@/views/glsl/image-effect/emboss/index'),
     meta: {
-      title: 'glsl 实战 浮雕效果'
+      title: 'glsl 入门效果 浮雕效果'
+    }
+  },
+  {
+    path: '/glsl/image-effect/mosaic',
+    name: 'Mosaic',
+    component: () => import('@/views/glsl/image-effect/mosaic/index'),
+    meta: {
+      title: 'glsl 入门效果 马赛克效果'
+    }
+  },
+  {
+    path: '/glsl/image-effect/mosaic-point',
+    name: 'MosaicPoint',
+    component: () => import('@/views/glsl/image-effect/mosaic-point/index'),
+    meta: {
+      title: 'glsl 入门效果 圆形马赛克效果'
     }
   },
   {
