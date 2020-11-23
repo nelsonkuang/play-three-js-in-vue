@@ -16,6 +16,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/emboss',
+    name: 'Emboss',
+    component: () => import('@/views/glsl/image-effect/emboss'),
+    meta: {
+      title: 'glsl 实战 浮雕效果'
+    }
+  },
+  {
     path: '/glsl/diamond-ii',
     name: 'DiamondII',
     component: () => import('@/views/glsl/diamond-ii/index'),
