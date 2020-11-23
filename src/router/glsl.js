@@ -18,7 +18,7 @@ const glsl = [
   {
     path: '/glsl/image-effect/emboss',
     name: 'Emboss',
-    component: () => import('@/views/glsl/image-effect/emboss'),
+    component: () => import('@/views/glsl/image-effect/emboss/index'),
     meta: {
       title: 'glsl 实战 浮雕效果'
     }
