@@ -40,6 +40,38 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/blur',
+    name: 'Blur',
+    component: () => import('@/views/glsl/image-effect/blur/index'),
+    meta: {
+      title: 'glsl 进阶效果 锐化模糊效果'
+    }
+  },
+  {
+    path: '/glsl/image-effect/edge',
+    name: 'Edge',
+    component: () => import('@/views/glsl/image-effect/edge/index'),
+    meta: {
+      title: 'glsl 进阶效果 铅笔描边效果'
+    }
+  },
+  {
+    path: '/glsl/image-effect/hdr-blow',
+    name: 'HdrBlow',
+    component: () => import('@/views/glsl/image-effect/hdr-blow/index'),
+    meta: {
+      title: 'glsl 高级效果 伪 HDR / Blow'
+    }
+  },
+  {
+    path: '/glsl/image-effect/water-filter',
+    name: 'WaterFilter',
+    component: () => import('@/views/glsl/image-effect/water-filter/index'),
+    meta: {
+      title: 'glsl 高级效果 水彩化'
+    }
+  },
+  {
     path: '/glsl/diamond-ii',
     name: 'DiamondII',
     component: () => import('@/views/glsl/diamond-ii/index'),
