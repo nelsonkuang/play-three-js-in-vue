@@ -29,6 +29,7 @@ color：是否改变被遮罩texture的颜色。
 inverted：是否反向，反向的百分比是多少。
 */
 precision mediump float;
+#define GLSLIFY 1
 uniform sampler2D s_baseMap;
 uniform vec2 TexSize;
 varying vec2 v_texCoord;
