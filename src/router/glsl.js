@@ -16,6 +16,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/gray',
+    name: 'Gray',
+    component: () => import('@/views/glsl/image-effect/gray/index'),
+    meta: {
+      title: 'glsl 入门效果 灰度图 + 图像颠倒'
+    }
+  },
+  {
     path: '/glsl/image-effect/emboss',
     name: 'Emboss',
     component: () => import('@/views/glsl/image-effect/emboss/index'),
@@ -69,6 +77,14 @@ const glsl = [
     component: () => import('@/views/glsl/image-effect/water-filter/index'),
     meta: {
       title: 'glsl 高级效果 水彩化'
+    }
+  },
+  {
+    path: '/glsl/image-effect/rotate',
+    name: 'Rotate',
+    component: () => import('@/views/glsl/image-effect/rotate/index'),
+    meta: {
+      title: 'glsl 高级效果 旋转效果'
     }
   },
   {
