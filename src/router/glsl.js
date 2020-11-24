@@ -72,6 +72,30 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/vignette',
+    name: 'Vignette',
+    component: () => import('@/views/glsl/image-effect/vignette/index'),
+    meta: {
+      title: 'glsl 进阶效果 小插图效果'
+    }
+  },
+  {
+    path: '/glsl/image-effect/scan-line',
+    name: 'ScanLine',
+    component: () => import('@/views/glsl/image-effect/scan-line/index'),
+    meta: {
+      title: 'glsl 进阶效果 扫描线效果'
+    }
+  },
+  {
+    path: '/glsl/image-effect/pixelate',
+    name: 'Pixelate',
+    component: () => import('@/views/glsl/image-effect/pixelate/index'),
+    meta: {
+      title: 'glsl 进阶效果 像素化效果'
+    }
+  },
+  {
     path: '/glsl/image-effect/hdr-blow',
     name: 'HdrBlow',
     component: () => import('@/views/glsl/image-effect/hdr-blow/index'),
@@ -93,6 +117,14 @@ const glsl = [
     component: () => import('@/views/glsl/image-effect/rotate/index'),
     meta: {
       title: 'glsl 高级效果 旋转效果'
+    }
+  },
+  {
+    path: '/glsl/image-effect/frosted-glass',
+    name: 'FrostedGlass',
+    component: () => import('@/views/glsl/image-effect/frosted-glass/index'),
+    meta: {
+      title: 'glsl 高级效果 Windows7 Aero 的毛玻璃 / 晶体效果'
     }
   },
   {
