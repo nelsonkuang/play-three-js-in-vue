@@ -12,6 +12,6 @@ void main() {
   const float blockSize = 16.0; // 小块大小
   vec2 intXY = vec2(v_texCoord.x * TexSize.x, v_texCoord.y * TexSize.y); // 真实点坐标
   vec2 fakeUV = floor(intXY / blockSize) * blockSize;
-  vec2 uv = fakeUV / TexSize.xy;
+  vec2 uv = fakeUV / TexSize.xy; // TexSize 相当于 resolution
   gl_FragColor = texture2D(s_baseMap, uv);
 }
