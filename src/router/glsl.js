@@ -128,6 +128,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/mask',
+    name: 'Mask',
+    component: () => import('@/views/glsl/image-effect/mask/index'),
+    meta: {
+      title: 'glsl 高级效果 遮罩特效'
+    }
+  },
+  {
     path: '/glsl/diamond-ii',
     name: 'DiamondII',
     component: () => import('@/views/glsl/diamond-ii/index'),
