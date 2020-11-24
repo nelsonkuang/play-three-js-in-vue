@@ -64,6 +64,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/fog',
+    name: 'Fog',
+    component: () => import('@/views/glsl/image-effect/fog/index'),
+    meta: {
+      title: 'glsl 进阶效果 雾效果'
+    }
+  },
+  {
     path: '/glsl/image-effect/hdr-blow',
     name: 'HdrBlow',
     component: () => import('@/views/glsl/image-effect/hdr-blow/index'),
