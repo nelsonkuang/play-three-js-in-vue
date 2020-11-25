@@ -62,6 +62,6 @@ void main() {
     Normal =  normal;
     worldNormal = (modelMatrix * vec4(normal,0.0)).xyz;
     vecPos = (modelMatrix * vec4(position, 1.0 )).xyz;
-    viewPos = (modelViewMatrix * vec4(position, 1.0 )).xyz;
+    // viewPos = (modelViewMatrix * vec4(position, 1.0 )).xyz;
     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 }

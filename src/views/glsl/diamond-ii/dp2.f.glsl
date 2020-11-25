@@ -331,7 +331,7 @@ void main() {
     gl_FragColor = vec4(color.rgb, opacity);
     // gl_FragColor.rgb = innerUncharted2ToneMapping(gl_FragColor.rgb);
     gl_FragColor.rgb = normalize(innerUncharted2ToneMapping(gl_FragColor.rgb));
-    float luminance = dot(gl_FragColor.rgb, W);
-    gl_FragColor = vec4(vec3(luminance), gl_FragColor.a);
+    // float luminance = dot(gl_FragColor.rgb, W);
+    // gl_FragColor = vec4(vec3(luminance), gl_FragColor.a);
     // gl_FragColor = textureCube(tCubeMapNormals, normalize(Normal));
 }

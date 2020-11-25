@@ -323,11 +323,16 @@ vec3 debugBounces(int count) {
              return outColor;
      }
 
+const highp vec3 W = vec3(0.2125, 0.7154, 0.0721);
+
 void main() {
     vec3 normalizedNormal = normalize(worldNormal);
     vec3 viewVector = normalize(vecPos - cameraPosition);
     vec3 color = traceRay(vecPos, viewVector, normalizedNormal);
     gl_FragColor = vec4(color.rgb, opacity);
+    // gl_FragColor.rgb = innerUncharted2ToneMapping(gl_FragColor.rgb);
     gl_FragColor.rgb = normalize(innerUncharted2ToneMapping(gl_FragColor.rgb));
+    // float luminance = dot(gl_FragColor.rgb, W);
+    // gl_FragColor = vec4(vec3(luminance), gl_FragColor.a);
     // gl_FragColor = textureCube(tCubeMapNormals, normalize(Normal));
 }

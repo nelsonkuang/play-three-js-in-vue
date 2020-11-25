@@ -20,6 +20,15 @@ float radius = 10.0/2.0; //应该使用 float radius = 5.0;
 float dist = radius / 2.0; //应该使用float dist = radius * 0.5; 尽量避免使用除法；
 向量之间相乘，可以使用点积来代替，这是GPU的强项。
 
+    resolution: {
+    type: 'v2',
+    value: new THREE.Vector2(window.innerWidth, window.innerHeight)
+    },
+    imageResolution: {
+    type: 'v2',
+    value: new THREE.Vector2(2048, 1356)
+    },
+
 遮罩特效
 该shader遮罩可以控制：大小、位置、遮罩的颜色、遮罩渐变大小、快慢、明暗程度。
 radius：遮罩的半径大小；

@@ -31,7 +31,7 @@ export default {
     init()
     function init () {
       camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 1, 1000)
-      camera.position.set(0.0, - 10, 10 * 3.5);
+      camera.position.set(0.0, - 10, 10 * 3.5)
       scene = new THREE.Scene()
 
       renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -83,7 +83,7 @@ export default {
           }
         })
         scene.add(object)
-        scene.background = cubeMap
+        scene.background = envMap
         animate()
       }, undefined, function (error) {
         console.error(error)
