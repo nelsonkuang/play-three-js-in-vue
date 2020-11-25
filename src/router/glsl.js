@@ -104,6 +104,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/flash',
+    name: 'Flash',
+    component: () => import('@/views/glsl/image-effect/flash/index'),
+    meta: {
+      title: 'glsl 进阶效果 闪白'
+    }
+  },
+  {
     path: '/glsl/image-effect/hdr-blow',
     name: 'HdrBlow',
     component: () => import('@/views/glsl/image-effect/hdr-blow/index'),
@@ -141,6 +149,38 @@ const glsl = [
     component: () => import('@/views/glsl/image-effect/mask/index'),
     meta: {
       title: 'glsl 高级效果 遮罩特效'
+    }
+  },
+  {
+    path: '/glsl/image-effect/weak-mask',
+    name: 'WeakMask',
+    component: () => import('@/views/glsl/image-effect/weak-mask/index'),
+    meta: {
+      title: 'glsl 高级效果 灵魂出窍'
+    }
+  },
+  {
+    path: '/glsl/image-effect/debounce',
+    name: 'Debounce',
+    component: () => import('@/views/glsl/image-effect/debounce/index'),
+    meta: {
+      title: 'glsl 高级效果 抖动'
+    }
+  },
+  {
+    path: '/glsl/image-effect/jitter',
+    name: 'Jitter',
+    component: () => import('@/views/glsl/image-effect/jitter/index'),
+    meta: {
+      title: 'glsl 高级效果 毛刺'
+    }
+  },
+  {
+    path: '/glsl/image-effect/fantasy',
+    name: 'Fantasy',
+    component: () => import('@/views/glsl/image-effect/fantasy/index'),
+    meta: {
+      title: 'glsl 高级效果 幻觉'
     }
   },
   {
