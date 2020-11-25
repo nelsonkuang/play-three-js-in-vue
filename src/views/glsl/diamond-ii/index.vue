@@ -10,7 +10,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 // import Stats from 'three/examples/jsm/libs/stats.module'
 // import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
-import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader'
+// import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { getDpMaterial } from './shader-material'
 let gui = null
@@ -25,7 +25,7 @@ export default {
   mounted () {
     let container = this.$refs.canvas
     let camera, scene, renderer, gltf
-    let hdrCubeMap, hdrCubeRenderTarget
+    // let hdrCubeMap, hdrCubeRenderTarget
     let cubeMap, envMap
     let object, meshes = []
     init()
@@ -50,7 +50,7 @@ export default {
       const pmremGenerator = new THREE.PMREMGenerator(renderer)
       pmremGenerator.compileCubemapShader()
 
-      envMap = new THREE.CubeTextureLoader().setPath('./static/img/')
+      cubeMap = new THREE.CubeTextureLoader().setPath('./static/img/')
         .load(
           [
             'dpEnvMap.png',
@@ -61,40 +61,33 @@ export default {
             'dpEnvMap.png'
           ]
         )
-      envMap.mapping = THREE.CubeRefractionMapping
-      hdrCubeMap = new HDRCubeTextureLoader()
-        .setPath('./static/textures/equirectangular/')
-        .setDataType(THREE.UnsignedByteType)
-        .load([
-          'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr'
-        ], function () {
-          hdrCubeRenderTarget = pmremGenerator.fromCubemap(hdrCubeMap)
-          hdrCubeMap.magFilter = THREE.LinearFilter
-          hdrCubeMap.needsUpdate = true
+      cubeMap.mapping = THREE.CubeRefractionMapping
+      cubeMap.encoding = THREE.sRGBEncoding
 
-          cubeMap = hdrCubeRenderTarget
-          cubeMap.mapping = THREE.CubeRefractionMapping
-          const gltfLoader = new GLTFLoader()
-          gltfLoader.load('./static/models/glb/diamond.glb', function (data) {
-            gltf = data
-            object = gltf.scene
-            object.traverse(function (node) {
-              if (node.material && (node.material.isMeshStandardMaterial ||
-                (node.material.isShaderMaterial && node.material.envMap !== undefined))) {
-                node.material = getDpMaterial(THREE, envMap, cubeMap, THREE.FrontSide)
-                const second = node.clone()
-                second.material = getDpMaterial(THREE, envMap, cubeMap, THREE.BackSide)
-                object.add(second)
-                meshes = [node, second]
-              }
-            })
-            scene.add(object)
-            scene.background = envMap
-            animate()
-          }, undefined, function (error) {
-            console.error(error)
-          })
+      envMap = new THREE.TextureLoader().load( './static/img/djEnvMap.png')
+      envMap.mapping = THREE.EquirectangularRefractionMapping
+      envMap.encoding = THREE.sRGBEncoding
+
+      const gltfLoader = new GLTFLoader()
+      gltfLoader.load('./static/models/glb/diamond.glb', function (data) {
+        gltf = data
+        object = gltf.scene
+        object.traverse(function (node) {
+          if (node.material && (node.material.isMeshStandardMaterial ||
+            (node.material.isShaderMaterial && node.material.envMap !== undefined))) {
+            node.material = getDpMaterial(THREE, cubeMap, envMap, THREE.FrontSide)
+            const second = node.clone()
+            second.material = getDpMaterial(THREE, cubeMap, envMap, THREE.BackSide)
+            object.add(second)
+            meshes = [node, second]
+          }
         })
+        scene.add(object)
+        scene.background = cubeMap
+        animate()
+      }, undefined, function (error) {
+        console.error(error)
+      })
 
       window.addEventListener('resize', onWindowResize, false)
     }
