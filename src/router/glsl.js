@@ -96,6 +96,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/scale',
+    name: 'Scale',
+    component: () => import('@/views/glsl/image-effect/scale/index'),
+    meta: {
+      title: 'glsl 进阶效果 缩放'
+    }
+  },
+  {
     path: '/glsl/image-effect/hdr-blow',
     name: 'HdrBlow',
     component: () => import('@/views/glsl/image-effect/hdr-blow/index'),
