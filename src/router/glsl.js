@@ -188,7 +188,15 @@ const glsl = [
     name: 'DiamondII',
     component: () => import('@/views/glsl/diamond-ii/index'),
     meta: {
-      title: 'Three.js 实战 愤怒的钻石'
+      title: 'Three.js 实战 钻石II'
+    }
+  },
+  {
+    path: '/glsl/diamond-iii',
+    name: 'DiamondIII',
+    component: () => import('@/views/glsl/diamond-iii/index'),
+    meta: {
+      title: 'Three.js 实战 钻石III'
     }
   }
 ]

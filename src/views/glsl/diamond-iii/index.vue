@@ -111,6 +111,7 @@ export default {
         mesh.material.uniforms['modelViewMatrix'].value = object.modelViewMatrix
         mesh.material.uniforms['projectionMatrix'].value = camera.projectionMatrix
         mesh.material.uniforms['cameraPosition'].value = camera.position
+        mesh.material.uniforms['iResolution'].value = [container.clientWidth, container.clientHeight]
       })
       // renderer.toneMappingExposure = 5.0
       renderer.render(scene, camera)
