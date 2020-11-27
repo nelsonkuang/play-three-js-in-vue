@@ -35,9 +35,9 @@ export const getDpMaterial = function (THREE, cubeMap, envMap, side) {
             'i_toneMappingWhitePoint': { value: 1 },
             'iResolution': { value: [0, 0], type: 'v2' },
             'iMouse': { value: [0, 0, 1], type: 'v3'},
-            'worldSpaceLightPos0': { value: [0, 10, 100], type: 'v3'},
+            'worldSpaceLightPos0': { value: [0,35, 100], type: 'v3'},
             'lightColor0': {value: [1, 1, 1, 1], type: 'v4'},
-            'specularGloss': { value: 1 },
+            'specularGloss': { value: 0.5 },
             'isBlinn': {value: 1}
         },
     })

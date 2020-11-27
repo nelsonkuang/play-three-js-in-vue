@@ -10,7 +10,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 // import Stats from 'three/examples/jsm/libs/stats.module'
 // import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
-import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader'
+// import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader'
 // import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { getDpMaterial } from './shader-material'
@@ -26,8 +26,8 @@ export default {
   mounted () {
     let container = this.$refs.canvas
     let camera, scene, renderer, gltf
-    let hdrCubeRenderTarget, hdrCubeMap
-    let cubeMap, envMap
+    // let hdrCubeRenderTarget, hdrCubeMap
+    let cubeMap, envMap, cubeTexture
     let object, meshes = []
     init()
     function init () {
@@ -48,47 +48,75 @@ export default {
       controls.target.set(0, 0, 0)
       controls.update()
 
+      cubeTexture = new THREE.CubeTextureLoader().setPath('./static/img/cube/Park2/')
+        .load(
+          [
+            'px.jpg',
+            'nx.jpg',
+            'py.jpg',
+            'ny.jpg',
+            'pz.jpg',
+            'nz.jpg'
+          ]
+        )
+      cubeTexture.mapping = THREE.CubeReflectionMapping
+
       envMap = new THREE.TextureLoader().load('./static/img/specular-tex.jpg')
       envMap.mapping = THREE.EquirectangularReflectionMapping
       envMap.encoding = THREE.sRGBEncoding
 
-      const pmremGenerator = new THREE.PMREMGenerator(renderer)
-      pmremGenerator.compileEquirectangularShader()
+      cubeMap = new THREE.CubeTextureLoader().setPath('./static/img/')
+        .load(
+          [
+            'dpEnvMap.png',
+            'dpEnvMap.png',
+            'dpEnvMap.png',
+            'dpEnvMap.png',
+            'dpEnvMap.png',
+            'dpEnvMap.png'
+          ]
+        )
+      cubeMap.mapping = THREE.CubeReflectionMapping
+      cubeMap.encoding = THREE.sRGBEncoding
 
-      hdrCubeMap = new HDRCubeTextureLoader()
-        .setPath('./static/textures/equirectangular/')
-        .setDataType(THREE.UnsignedByteType)
-        .load([
-          'px.hdr', 'nx.hdr', 'py.hdr', 'ny.hdr', 'pz.hdr', 'nz.hdr'
-        ], function () {
-          hdrCubeRenderTarget = pmremGenerator.fromCubemap(hdrCubeMap)
-          hdrCubeMap.magFilter = THREE.LinearFilter
-          hdrCubeMap.needsUpdate = true
-          cubeMap = hdrCubeRenderTarget.texture
-          cubeMap.mapping = THREE.CubeReflectionMapping
-          const gltfLoader = new GLTFLoader()
-          gltfLoader.load('./static/models/glb/diamond.glb', function (data) {
-            gltf = data
-            object = gltf.scene
-            object.traverse(function (node) {
-              if (node.material && (node.material.isMeshStandardMaterial ||
-                (node.material.isShaderMaterial && node.material.envMap !== undefined))) {
-                node.material = getDpMaterial(THREE, cubeMap, envMap, THREE.FrontSide)
-                node.material.needsUpdate = true
-                // const second = node.clone()
-                // second.material = getDpMaterial(THREE, cubeMap, envMap, THREE.BackSide)
-                // second.material.needsUpdate = true
-                // object.add(second)
-                meshes = [node]
-              }
-            })
-            scene.add(object)
-            scene.background = envMap
-            animate()
-          }, undefined, function (error) {
-            console.error(error)
-          })
+      const gltfLoader = new GLTFLoader()
+      gltfLoader.load('./static/models/glb/diamond.glb', function (data) {
+        gltf = data
+        object = gltf.scene
+        object.traverse(function (node) {
+          if (node.material && (node.material.isMeshStandardMaterial ||
+            (node.material.isShaderMaterial && node.material.envMap !== undefined))) {
+            node.material = getDpMaterial(THREE, cubeMap, envMap, THREE.DoubleSide)
+            node.material.needsUpdate = true
+            // const second = node.clone()
+            // second.material = getDpMaterial(THREE, cubeMap, envMap, THREE.BackSide)
+            // second.material.needsUpdate = true
+            // object.add(second)
+            meshes = [node]
+          }
         })
+        scene.add(object)
+        scene.background = cubeTexture
+        animate()
+      }, undefined, function (error) {
+        console.error(error)
+      })
+
+      // Lights
+      scene.add(new THREE.AmbientLight(0xffffff)) // 环境光
+      const pointLight1 = new THREE.PointLight(0xffffff) // 点光源
+      pointLight1.position.set(150, 10, 0)
+      pointLight1.castShadow = false
+      scene.add(pointLight1)
+      const pointLight2 = new THREE.PointLight(0xffffff)
+      pointLight2.position.set(-150, 0, 0)
+      scene.add(pointLight2)
+      const pointLight3 = new THREE.PointLight(0xffffff)
+      pointLight3.position.set(0, -10, -150)
+      scene.add(pointLight3)
+      const pointLight4 = new THREE.PointLight(0xffffff)
+      pointLight4.position.set(0, 0, 150)
+      scene.add(pointLight4)
 
       window.addEventListener('resize', onWindowResize, false)
     }
