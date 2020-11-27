@@ -36,10 +36,11 @@ vec4 quant(vec4 _cl, float n) {
 }
 
 void main() {
+  float maxVal = max(TexSize.x, TexSize.y);
   float _waterPower = 40.0; // _waterPower 则表示图像颜色扩散范围，取值范围在8－64之间的效果比较好。
   float _quatLevel = 5.0; // _quatLevel 用来表示对图像的量化比特数，值越小，色块越明显，比较合理的取值范围是2-6。
   vec4 noiseColor = _waterPower*texture2D(s_baseMap,v_texCoord);
-  vec2 newUV =vec2(v_texCoord.x + noiseColor.x/TexSize.x,v_texCoord.y + noiseColor.y/TexSize.y);
+  vec2 newUV =vec2(v_texCoord.x + noiseColor.x/maxVal,v_texCoord.y + noiseColor.y/maxVal);
   vec4 _fColor = texture2D(s_baseMap,newUV);
   gl_FragColor = quant(_fColor, 255.0 / pow(2.0, _quatLevel));
 }

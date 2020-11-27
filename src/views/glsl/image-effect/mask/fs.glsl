@@ -44,7 +44,7 @@ varying vec2 v_texCoord;
 
 const vec4 coefficient = vec4(0.0, 1.0, 0.5, 2.0); /* inverted, radius, gradient, brightness. */
 const vec4 color = vec4(1.0, 0.0, 1.0, 1.0);
-const vec2 touchPoint = vec2(1024.0, 1024.0);
+// const vec2 touchPoint = vec2(1024.0, 1024.0);
 
 float getMask(float radius, vec2 pos, vec2 centre){
     float dist = distance(pos, centre);
@@ -60,6 +60,7 @@ void main() {
   float aspe = TexSize.x / TexSize.y; // 因为要保证非遮罩部分为圆形
   vec2 pos = uv;
   pos.x *= aspe; // 因为要乘以一个比例，所以上面要把坐标范围从 [0, 1] 变为 [-1, 1]
+  vec2 touchPoint = vec2(TexSize.x / 2.0, TexSize.y / 2.0);
   vec2 centre = (touchPoint.xy / TexSize.xy) * 2.0 - 1.0;
   centre.x *= aspe;
   vec4 tc = texture2D(s_baseMap, vec2(v_texCoord.x, 1.0 - v_texCoord.y)); // 右手坐标系

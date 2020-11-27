@@ -12,13 +12,14 @@ precision mediump float;
 uniform sampler2D s_baseMap;
 uniform vec2 TexSize;
 varying vec2 v_texCoord;
-vec2 mosaicSize = vec2(32,32);
+vec2 mosaicSize = vec2(8,8);
 void main() {
-  vec2 intXY = vec2(v_texCoord.x*TexSize.x, v_texCoord.y*TexSize.y); // 把纹理坐标转换成图像实际大小的整数坐标
+  float maxVal = max(TexSize.x, TexSize.y);
+  vec2 intXY = vec2(v_texCoord.x*maxVal, v_texCoord.y*maxVal); // 把纹理坐标转换成图像实际大小的整数坐标
   vec2 XYMosaic = vec2(floor(intXY.x/mosaicSize.x)*mosaicSize.x,floor(intXY.y/mosaicSize.y)*mosaicSize.y) + 0.5*mosaicSize; // 坐标量化
   vec2 delXY = XYMosaic - intXY;
   float delL = length(delXY);
-  vec2 UVMosaic = vec2(XYMosaic.x/TexSize.x,XYMosaic.y/TexSize.y); // 再缩少为纹理坐标
+  vec2 UVMosaic = vec2(XYMosaic.x/maxVal,XYMosaic.y/maxVal); // 再缩少为纹理坐标
   vec4 _finalColor;
   if(delL < 0.5*mosaicSize.x)
     _finalColor = texture2D(s_baseMap,UVMosaic);

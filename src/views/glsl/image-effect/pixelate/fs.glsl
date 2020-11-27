@@ -9,9 +9,11 @@ uniform vec2 TexSize;
 varying vec2 v_texCoord;
 
 void main() {
-  const float blockSize = 16.0; // 小块大小
-  vec2 intXY = vec2(v_texCoord.x * TexSize.x, v_texCoord.y * TexSize.y); // 真实点坐标
+  float maxVal = max(TexSize.x, TexSize.y);
+  vec2 newTexSize = vec2(maxVal, maxVal);
+  const float blockSize = 8.0; // 小块大小
+  vec2 intXY = vec2(v_texCoord.x * maxVal, v_texCoord.y * maxVal); // 真实点坐标
   vec2 fakeUV = floor(intXY / blockSize) * blockSize;
-  vec2 uv = fakeUV / TexSize.xy; // TexSize 相当于 resolution
+  vec2 uv = fakeUV / newTexSize.xy; // TexSize 相当于 resolution
   gl_FragColor = texture2D(s_baseMap, uv);
 }

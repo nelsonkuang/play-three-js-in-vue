@@ -27,8 +27,8 @@ export default {
       scene = new THREE.Scene()
       const tWidth = 10.0
       const tHeight = 10.0
-      const imgWidth = 900.0
-      const imgHeight = 900.0
+      // const imgWidth = 900.0
+      // const imgHeight = 900.0
       const geometry = new THREE.PlaneGeometry(tWidth, tHeight, 1)
       const material = new THREE.RawShaderMaterial({
         vertexShader: vertexShader,
@@ -36,7 +36,7 @@ export default {
         side: THREE.DoubleSide,
         uniforms: {
           's_baseMap': { type: 't', value: new THREE.TextureLoader().load('./static/img/sample.jpg') },
-          'TexSize': { value: [imgWidth, imgHeight] },
+          'TexSize': { value: [container.clientWidth / container.clientHeight] },
           'modelViewMatrix': { value: null },
           'projectionMatrix': { value: null },
           'time': { value: 0.0 },

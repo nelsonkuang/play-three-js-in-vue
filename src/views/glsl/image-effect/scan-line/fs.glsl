@@ -9,7 +9,8 @@ uniform float time;
 varying vec2 v_texCoord;
 
 void main() {
-  vec2 intXY = vec2(v_texCoord.x * TexSize.x, v_texCoord.y * TexSize.y); // 真实点坐标
+  float maxVal = max(TexSize.x, TexSize.y);
+  vec2 intXY = vec2(v_texCoord.x * maxVal, v_texCoord.y * maxVal); // 真实点坐标
   vec4 curColor = texture2D(s_baseMap, v_texCoord); // 当前颜色
   const float speed = 20.0;
   // curColor.rgb -= (mod(v_texCoord.y, 2.0) <= 1.0 ? 0.1 : 0.0);

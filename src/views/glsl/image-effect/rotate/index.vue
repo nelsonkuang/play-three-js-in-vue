@@ -27,8 +27,8 @@ export default {
       scene = new THREE.Scene()
       const tWidth = 20.0
       const tHeight = 20.0
-      const imgWidth = 2048.0
-      const imgHeight = 2048.0
+      // const imgWidth = 2048.0
+      // const imgHeight = 2048.0
       const geometry = new THREE.PlaneGeometry(tWidth, tHeight, 1)
       const material = new THREE.RawShaderMaterial({
         vertexShader: vertexShader,
@@ -36,7 +36,7 @@ export default {
         side: THREE.DoubleSide,
         uniforms: {
           's_baseMap': { type: 't', value: new THREE.TextureLoader().load('./static/img/cube/Park2/py.jpg') },
-          'TexSize': { value: [imgWidth, imgHeight] },
+          'TexSize': { value: [container.clientWidth, container.clientHeight] },
           'modelViewMatrix': { value: null },
           'projectionMatrix': { value: null },
         },
