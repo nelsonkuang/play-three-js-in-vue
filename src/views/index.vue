@@ -21,7 +21,7 @@ export default {
     routes () {
       const arr = [...this.$router.options.routes]
       arr.shift()
-      return arr
+      return arr.filter(_ => _.name !== 'DiamondIII')
     },
   },
   created () {

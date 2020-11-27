@@ -188,7 +188,7 @@ const glsl = [
     name: 'DiamondII',
     component: () => import('@/views/glsl/diamond-ii/index'),
     meta: {
-      title: 'Three.js 实战 钻石II'
+      title: 'Shader glsl 实战 失败的钻石 II'
     }
   },
   {
@@ -196,7 +196,15 @@ const glsl = [
     name: 'DiamondIII',
     component: () => import('@/views/glsl/diamond-iii/index'),
     meta: {
-      title: 'Three.js 实战 钻石III'
+      title: 'Shader glsl 实战 钻石 III'
+    }
+  },
+  {
+    path: '/glsl/phong-n-blinn-phong',
+    name: 'PhongNBlinnPhong',
+    component: () => import('@/views/glsl/phong-n-blinn-phong/index'),
+    meta: {
+      title: 'Shader glsl 实战 Phong 与 Blinn-Phong 光照模型实现'
     }
   }
 ]
