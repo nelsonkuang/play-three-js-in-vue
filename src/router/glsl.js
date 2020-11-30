@@ -214,6 +214,14 @@ const glsl = [
     meta: {
       title: 'Shader glsl 实战 Phong 与 Blinn-Phong 光照模型实现'
     }
+  },
+  {
+    path: '/glsl/pbr',
+    name: 'Pbr',
+    component: () => import('@/views/glsl/pbr/index'),
+    meta: {
+      title: 'Shader glsl 实战 PBR 基于物理渲染（带贴图）'
+    }
   }
 ]
 export default glsl
