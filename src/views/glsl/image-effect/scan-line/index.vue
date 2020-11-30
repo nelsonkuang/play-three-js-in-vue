@@ -79,7 +79,7 @@ export default {
       renderer.render(scene, camera)
     }
     init()
-    animate()
+    animate(0)
   },
   beforeDestroy () {
     timer && cancelAnimationFrame(timer)

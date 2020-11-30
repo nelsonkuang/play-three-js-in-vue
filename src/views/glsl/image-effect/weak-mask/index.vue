@@ -72,14 +72,14 @@ export default {
     }
     function animate (time) {
       timer = requestAnimationFrame(animate)
-      plane.material.uniforms['time'].value = time
+      plane.material.uniforms['time'].value = time * 0.001
       render()
     }
     function render () {
       renderer.render(scene, camera)
     }
     init()
-    animate()
+    animate(0)
   },
   beforeDestroy () {
     timer && cancelAnimationFrame(timer)

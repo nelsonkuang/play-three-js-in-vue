@@ -184,6 +184,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/sin-wave-mask',
+    name: 'SinWaveMask',
+    component: () => import('@/views/glsl/image-effect/sin-wave-mask/index'),
+    meta: {
+      title: 'glsl 高级效果 正弦波遮罩效果'
+    }
+  },
+  {
     path: '/glsl/diamond-ii',
     name: 'DiamondII',
     component: () => import('@/views/glsl/diamond-ii/index'),

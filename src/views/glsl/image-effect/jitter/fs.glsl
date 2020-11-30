@@ -19,7 +19,7 @@ float rand(float n) {
 }
 
 void main() {
-  float maxJitter = 0.09;
+  float maxJitter = 0.06;
   float duration = 0.3;
   float colorROffset = 0.01;
   float colorBOffset = -0.025;

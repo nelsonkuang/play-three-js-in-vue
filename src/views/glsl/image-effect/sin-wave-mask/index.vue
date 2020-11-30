@@ -21,6 +21,7 @@ export default {
     let container = this.$refs.canvas
     let camera, scene, renderer
     let plane
+    let then = 0, offset = 0, dir = 1
     function init () {
       camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 1, 1000)
       camera.position.set(0.0, 0.0, 10 * 3);
@@ -36,10 +37,13 @@ export default {
         side: THREE.DoubleSide,
         uniforms: {
           's_baseMap': { type: 't', value: new THREE.TextureLoader().load('./static/img/sample.jpg') },
-          'TexSize': { value: [container.clientWidth, container.clientHeight] },
+          // 'TexSize': { value: [container.clientWidth, container.clientHeight] },
           'modelViewMatrix': { value: null },
           'projectionMatrix': { value: null },
-          'time': { value: 0.0 },
+          // 'time': { value: 0 },
+          // '_Color': { value: [1, 1, 1, 1], type: 'v4' },
+          '_MaskColor': { value: [0.5, 0.5, 0.5, 0.5], type: 'v4' },
+          '_Offset': { value: 0.0 },
         },
       })
       plane = new THREE.Mesh(geometry, material)
@@ -71,15 +75,22 @@ export default {
       renderer.setSize(width, height)
     }
     function animate (time) {
+      time *= 0.001
+      const deltaTime = time - then
+      then = time
       timer = requestAnimationFrame(animate)
-      plane.material.uniforms['time'].value = time
+      const speed = 0.1
+      offset += (dir * deltaTime * speed)
+      plane.material.uniforms['_Offset'].value = offset
+      if (offset > 1 || offset < 0)
+        dir *= -1
       render()
     }
     function render () {
       renderer.render(scene, camera)
     }
     init()
-    animate()
+    animate(0)
   },
   beforeDestroy () {
     timer && cancelAnimationFrame(timer)
