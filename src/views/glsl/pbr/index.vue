@@ -11,7 +11,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 // import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
 // import { HDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader'
 // import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { getDpMaterial } from './shader-material'
 let gui = null
 let timer = null
@@ -24,10 +24,10 @@ export default {
   },
   mounted () {
     let container = this.$refs.canvas
-    let camera, scene, renderer, gltf
+    let camera, scene, renderer/* , gltf */
     // let hdrCubeRenderTarget, hdrCubeMap
     let cubeTexture
-    let object, meshes = []
+    let /* object,  */mesh
     let roughnessMap, metallicMap, albedoMap
     init()
     function init () {
@@ -48,11 +48,11 @@ export default {
       controls.target.set(0, 0, 0)
       controls.update()
 
-      albedoMap = new THREE.TextureLoader().load('./static/img/rustediron2_basecolor.jpg')
+      albedoMap = new THREE.TextureLoader().load('./static/img/rock-tex.jpg')
       albedoMap.encoding = THREE.sRGBEncoding
-      metallicMap = new THREE.TextureLoader().load('./static/img/specular-tex.jpg')
+      metallicMap = new THREE.TextureLoader().load('./static/img/rustediron2_basecolor.jpg')
       metallicMap.encoding = THREE.sRGBEncoding
-      roughnessMap = new THREE.TextureLoader().load('./static/img/rock-tex.jpg')
+      roughnessMap = new THREE.TextureLoader().load('./static/img/specular-tex.jpg')
       roughnessMap.encoding = THREE.sRGBEncoding
 
       cubeTexture = new THREE.CubeTextureLoader().setPath('./static/img/cube/Park2/')
@@ -68,28 +68,35 @@ export default {
         )
       cubeTexture.mapping = THREE.CubeReflectionMapping
 
-      const gltfLoader = new GLTFLoader()
-      gltfLoader.load('./static/models/glb/diamond.glb', function (data) {
-        gltf = data
-        object = gltf.scene
-        object.traverse(function (node) {
-          if (node.material && (node.material.isMeshStandardMaterial ||
-            (node.material.isShaderMaterial && node.material.envMap !== undefined))) {
-            node.material = getDpMaterial(THREE, THREE.FrontSide, albedoMap, metallicMap, roughnessMap)
-            node.material.needsUpdate = true
-            // const second = node.clone()
-            // second.material = getDpMaterial(THREE, cubeMap, envMap, THREE.BackSide)
-            // second.material.needsUpdate = true
-            // object.add(second)
-            meshes = [node]
-          }
-        })
-        scene.add(object)
-        scene.background = cubeTexture
-        animate()
-      }, undefined, function (error) {
-        console.error(error)
-      })
+      // const gltfLoader = new GLTFLoader()
+      // gltfLoader.load('./static/models/glb/diamond.glb', function (data) {
+      //   gltf = data
+      //   object = gltf.scene
+      //   object.traverse(function (node) {
+      //     if (node.material && (node.material.isMeshStandardMaterial ||
+      //       (node.material.isShaderMaterial && node.material.envMap !== undefined))) {
+      //       node.material = getDpMaterial(THREE, THREE.FrontSide, albedoMap, metallicMap, roughnessMap)
+      //       node.material.needsUpdate = true
+      //       // const second = node.clone()
+      //       // second.material = getDpMaterial(THREE, cubeMap, envMap, THREE.BackSide)
+      //       // second.material.needsUpdate = true
+      //       // object.add(second)
+      //       meshes = [node]
+      //     }
+      //   })
+      //   scene.add(object)
+      //   scene.background = cubeTexture
+      //   animate()
+      // }, undefined, function (error) {
+      //   console.error(error)
+      // })
+
+      const sphereGeo = new THREE.SphereBufferGeometry(2.5, 64, 32)
+      const sphereMaterial = getDpMaterial(THREE, THREE.FrontSide, albedoMap, metallicMap, roughnessMap)
+      const sphere = new THREE.Mesh(sphereGeo, sphereMaterial)
+      scene.add(sphere)
+      scene.background = cubeTexture
+      mesh = sphere
 
       // // Lights
       // scene.add(new THREE.AmbientLight(0xffffff)) // 环境光
@@ -121,17 +128,17 @@ export default {
       render()
     }
     function render () {
-      object.rotation.y += 0.005
+      mesh.rotation.y += 0.005
       // let mat = new THREE.Matrix4().getInverse(object.matrix)
-      meshes.forEach((mesh) => {
-        mesh.material.uniforms['modelMatrix'].value = object.matrix
-        mesh.material.uniforms['modelViewMatrix'].value = object.modelViewMatrix
-        mesh.material.uniforms['projectionMatrix'].value = camera.projectionMatrix
-        mesh.material.uniforms['cameraPosition'].value = camera.position
-      })
+      mesh.material.uniforms['modelMatrix'].value = mesh.matrix
+      mesh.material.uniforms['modelViewMatrix'].value = mesh.modelViewMatrix
+      mesh.material.uniforms['projectionMatrix'].value = camera.projectionMatrix
+      mesh.material.uniforms['cameraPosition'].value = camera.position
       // renderer.toneMappingExposure = 5.0
       renderer.render(scene, camera)
     }
+
+    animate()
   },
   beforeDestroy () {
     timer && cancelAnimationFrame(timer)

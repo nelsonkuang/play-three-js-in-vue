@@ -68,6 +68,7 @@ uniform vec3 lightColors[4];
 varying vec2 vUv;
 varying vec3 worldNormal;
 varying vec3 worldPosition;
+varying vec3 vNormal;
 
 // D - 正态分布函数
 // 在这里 h 表示用来与平面上微平面做比较用的 中间向量 ( 也叫半角向量 ) ，而 a 表示表面 粗糙度
@@ -124,7 +125,7 @@ void main() {
     float metallic  = texture2D(metallicMap, vUv).r;
     float roughness = texture2D(roughnessMap, vUv).r;
 
-    vec3 N = normalize(worldNormal);
+    vec3 N = vNormal;
     vec3 V = normalize(cameraPosition - worldPosition);
 
     vec3 F0 = vec3(0.04); 
@@ -164,5 +165,7 @@ void main() {
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));  // 转到 gamma 空间
 
-    gl_FragColor = vec4(color, 1.0);
+    // gl_FragColor = vec4(color, 1.0);
+		// gl_FragColor = vec4(albedoRgb, 1.0);
+		gl_FragColor = vec4(normalize(color), 1.0);
 }

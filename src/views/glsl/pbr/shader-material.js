@@ -16,10 +16,10 @@ export const getDpMaterial = function (THREE, side, albedoMap, metallicMap, roug
             'modelViewMatrix': { value: new THREE.Matrix4() },
             'projectionMatrix': { value: new THREE.Matrix4() },
             'cameraPosition': { value: [0, 0, 0], type: 'v3' },
-            'albedo': { value: [0.5, 0.0, 0.0], type: 'v3' },
-            'roughness': { value: 0 },
+            // 'albedo': { value: [0.5, 0.0, 0.0], type: 'v3' },
+            // 'roughness': { value: 0 },
             'ao': { value: 1.0 },
-            'metallic': { value: 1.0 },
+            // 'metallic': { value: 1.0 },
             'lightPositions': {
                 type: 'v3v',
                 value: [
@@ -32,10 +32,10 @@ export const getDpMaterial = function (THREE, side, albedoMap, metallicMap, roug
             'lightColors': {
                 type: 'v3v',
                 value: [
-                    new THREE.Vector3(1.0, 1.0, 1.0),
-                    new THREE.Vector3(1.0, 1.0, 1.0),
-                    new THREE.Vector3(1.0, 1.0, 1.0),
-                    new THREE.Vector3(1.0, 1.0, 1.0)
+                    new THREE.Vector3(300.0, 300.0, 300.0),
+                    new THREE.Vector3(300.0, 300.0, 300.0),
+                    new THREE.Vector3(300.0, 300.0, 300.0),
+                    new THREE.Vector3(300.0, 300.0, 300.0)
                 ]
             },
             'metallicMap': {

@@ -11,12 +11,13 @@ attribute vec2 uv;
 
 #define GLSLIFY 1
 varying vec2 vUv;
-varying vec3 Normal;
+varying vec3 vNormal;
 varying vec3 worldNormal;
 varying vec3 worldPosition;
 
 void main() {
     vUv = uv;
+    vNormal = normal;
     worldNormal = (modelMatrix * vec4(normal,0.0)).xyz;
     worldPosition = (modelMatrix * vec4(position, 1.0 )).xyz;
     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
