@@ -176,6 +176,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/flame',
+    name: 'Flame',
+    component: () => import('@/views/glsl/image-effect/flame/index'),
+    meta: {
+      title: 'glsl 高级效果 火焰'
+    }
+  },
+  {
     path: '/glsl/image-effect/fantasy',
     name: 'Fantasy',
     component: () => import('@/views/glsl/image-effect/fantasy/index'),
