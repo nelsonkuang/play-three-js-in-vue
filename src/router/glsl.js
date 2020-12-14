@@ -200,6 +200,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/snow',
+    name: 'Snow',
+    component: () => import('@/views/glsl/image-effect/snow/index'),
+    meta: {
+      title: 'glsl 高级效果 雪花飞舞'
+    }
+  },
+  {
     path: '/glsl/diamond-ii',
     name: 'DiamondII',
     component: () => import('@/views/glsl/diamond-ii/index'),
