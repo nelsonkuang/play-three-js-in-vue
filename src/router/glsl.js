@@ -208,6 +208,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/particle',
+    name: 'Particle',
+    component: () => import('@/views/glsl/image-effect/particle/index'),
+    meta: {
+      title: 'glsl 高级效果 旋转粒子'
+    }
+  },
+  {
     path: '/glsl/diamond-ii',
     name: 'DiamondII',
     component: () => import('@/views/glsl/diamond-ii/index'),
