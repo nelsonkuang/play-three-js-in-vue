@@ -41,7 +41,7 @@ export default {
       // Note: the keyframe track type should correspond to the type of the property being animated
 
       // POSITION
-      const positionKF = new THREE.VectorKeyframeTrack('.position', [0, 1, 2], [0, 0, 0, 30, 0, 0, 0, 0, 0])
+      const positionKF = new THREE.VectorKeyframeTrack('.position', [0, 1, 2], [0, 0, 0, 5, 0, 0, 0, 0, 0])
 
       // SCALE
       const scaleKF = new THREE.VectorKeyframeTrack('.scale', [0, 1, 2], [1, 1, 1, 2, 2, 2, 1, 1, 1])
@@ -61,11 +61,11 @@ export default {
       const colorKF = new THREE.ColorKeyframeTrack('.material.color', [0, 1, 2], [1, 0, 0, 0, 1, 0, 0, 0, 1], THREE.InterpolateDiscrete)
 
       // OPACITY
-      const opacityKF = new THREE.NumberKeyframeTrack('.material.opacity', [0, 1, 2], [1, 0, 1])
+      const opacityKF = new THREE.NumberKeyframeTrack('.material.opacity', [0, 1, 2], [1, 0.2, 1])
 
       // create an animation sequence with the tracks
       // If a negative time value is passed, the duration will be calculated from the times of the passed tracks array
-      const clip = new THREE.AnimationClip('Action', 3, [scaleKF, positionKF, quaternionKF, colorKF, opacityKF])
+      const clip = new THREE.AnimationClip('Action', 2, [scaleKF, positionKF, quaternionKF, colorKF, opacityKF])
 
       // setup the THREE.AnimationMixer
       mixer = new THREE.AnimationMixer(mesh)
