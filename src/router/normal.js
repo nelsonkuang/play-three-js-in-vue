@@ -15,5 +15,13 @@ const normal = [
       title: 'Three.js 官方基础动画例子修改'
     }
   },
+  {
+    path: '/normal/materials',
+    name: 'Materials',
+    component: () => import('@/views/normal/materials/index'),
+    meta: {
+      title: 'Three.js 各种材质 Materials'
+    }
+  },
 ]
 export default normal
