@@ -1,5 +1,9 @@
 'use strict'
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const path = require('path');
+function resolve (dir) {
+  return path.join(__dirname, dir);
+}
 module.exports = {
   /**
    * You will need to set publicPath if you plan to deploy your site under a sub path,
@@ -28,7 +32,14 @@ module.exports = {
       )
     ]
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
+    config.resolve.alias
+      .set('@', resolve('src'))
+      .set('assets', resolve('src/assets'))
+      // .set('components', resolve('src/components'))
+      // .set('base', resolve('baseConfig'))
+      .set('public', resolve('public'))
+
     config.module
       .rule('glsl')
       .test(/\.glsl$/)

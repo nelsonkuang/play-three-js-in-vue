@@ -239,6 +239,14 @@ const glsl = [
       title: 'Shader glsl 实战 Phong 与 Blinn-Phong 光照模型实现'
     }
   },
+  {
+    path: '/glsl/ykob/ground',
+    name: 'WaveGround',
+    component: () => import('@/views/glsl/ykob/ground/index'),
+    meta: {
+      title: 'sketch-threejs 中的波浪网格'
+    }
+  },
   // {
   //   path: '/glsl/pbr',
   //   name: 'Pbr',
