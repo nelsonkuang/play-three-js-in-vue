@@ -255,6 +255,14 @@ const glsl = [
       title: 'sketch-threejs 中的波浪网格 + Title'
     }
   },
+  {
+    path: '/glsl/ykob/ground-title-sky-octahedron',
+    name: 'SkyOctahedron',
+    component: () => import('@/views/glsl/ykob/ground-title-sky-octahedron/index'),
+    meta: {
+      title: 'sketch-threejs 顶部变异球'
+    }
+  },
   // {
   //   path: '/glsl/pbr',
   //   name: 'Pbr',
