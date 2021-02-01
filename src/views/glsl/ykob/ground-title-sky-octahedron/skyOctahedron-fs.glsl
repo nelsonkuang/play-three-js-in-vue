@@ -1,4 +1,6 @@
+#extension GL_OES_standard_derivatives : enable
 precision highp float;
+#define GLSLIFY 1
 
 uniform mat3 normalMatrix;
 uniform float time;

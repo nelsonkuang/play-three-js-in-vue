@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "core-js": "^3.4.3",
     "nprogress": "^0.2.0",
     "three": "^0.122.0",

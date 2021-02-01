@@ -30,7 +30,7 @@ export default {
     let now
     function init () {
       camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 1000)
-      camera.position.set(0.0, 0.0, 55 * 3);
+      camera.position.set(0.0, 0.0, 290 * 3);
       scene = new THREE.Scene()
       const tWidth = 1024.0
       const tHeight = 1024.0
@@ -120,14 +120,14 @@ export default {
             flatShading: true,
             transparent: true,
             side: THREE.DoubleSide,
-            // extensions: {
-            //   derivatives: true
-            // }
+            extensions: {
+              derivatives: true
+            }
           }))
         scene.add(skyOctahedron)
       }
 
-      renderer = new THREE.WebGLRenderer({ antialias: true })
+      renderer = new THREE.WebGL1Renderer({ antialias: false })
       // renderer.debug.checkShaderErrors = false
       renderer.setPixelRatio(window.devicePixelRatio)
       renderer.setSize(container.clientWidth, container.clientHeight)
@@ -135,9 +135,9 @@ export default {
       // const gl = renderer.context
       // gl.getExtension('OES_standard_derivatives')
       // getExtensionWithKnownPrefixes(gl, 'OES_standard_derivatives')
-      console.log(renderer.context.getExtension('OES_standard_derivatives'))
 
       container.appendChild(renderer.domElement)
+      // console.log(renderer.context)
 
       const controls = new OrbitControls(camera, renderer.domElement)
       controls.minDistance = 0.01
