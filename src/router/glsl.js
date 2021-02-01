@@ -247,6 +247,14 @@ const glsl = [
       title: 'sketch-threejs 中的波浪网格'
     }
   },
+  {
+    path: '/glsl/ykob/ground-title',
+    name: 'GroundTitle',
+    component: () => import('@/views/glsl/ykob/ground-title/index'),
+    meta: {
+      title: 'sketch-threejs 中的波浪网格 + Title'
+    }
+  },
   // {
   //   path: '/glsl/pbr',
   //   name: 'Pbr',
