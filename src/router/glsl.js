@@ -263,6 +263,14 @@ const glsl = [
       title: 'sketch-threejs 顶部变异球'
     }
   },
+  {
+    path: '/glsl/ykob/ground-title-sky-octahedron-shell',
+    name: 'SkyOctahedronShell',
+    component: () => import('@/views/glsl/ykob/ground-title-sky-octahedron-shell/index'),
+    meta: {
+      title: 'sketch-threejs Home 全效果'
+    }
+  },
   // {
   //   path: '/glsl/pbr',
   //   name: 'Pbr',
