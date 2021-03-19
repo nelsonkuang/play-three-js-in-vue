@@ -1,3 +1,4 @@
+const THREE = require('three')
 // Referenced from: https://github.com/ykob/js-util/blob/master/MathEx.js
 export function degrees (radian) {
   return radian / Math.PI * 180;
@@ -45,4 +46,11 @@ export function computeFaceNormal (p0, p1, p2) {
     n[i] = n[i] / l;
   }
   return n;
+}
+
+export function getPolarCoord (rad1, rad2, r) {
+  const x = Math.cos(rad1) * Math.cos(rad2) * r
+  const z = Math.cos(rad1) * Math.sin(rad2) * r
+  const y = Math.sin(rad1) * r
+  return new THREE.Vector3(x, y, z)
 }
