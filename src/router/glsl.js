@@ -279,6 +279,14 @@ const glsl = [
       title: 'sketch-threejs Fireball 火球效果'
     }
   },
+  {
+    path: '/glsl/ykob/fireball2',
+    name: 'Fireball2',
+    component: () => import('@/views/glsl/ykob/fireball2/index'),
+    meta: {
+      title: 'sketch-threejs Fireball2 火球效果 II'
+    }
+  },
   // {
   //   path: '/glsl/pbr',
   //   name: 'Pbr',

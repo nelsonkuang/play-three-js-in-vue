@@ -41,7 +41,7 @@ export default {
     camera = new ForcePerspectiveCamera(35, container.clientWidth / container.clientHeight, 1, 10000)
 
     // process for this sketch
-    const moversNum = 1000 // 控制生成点的个数来构成火的效果
+    const moversNum = 10000 // 控制生成点的个数来构成火的效果
     const movers = []
     const points = new Points()
     const light = new ForcePointLight(0xff6600, 1, 1800, 1) // hex, intensity, distance, decay
