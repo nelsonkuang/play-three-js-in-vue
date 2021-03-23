@@ -25,7 +25,6 @@ export default class PostEffectBright extends THREE.Mesh {
 
     // Create Object3D
     super(geometry, material)
-    this.name = 'PostEffectBright'
   }
   start (texture) {
     this.material.uniforms.texture.value = texture

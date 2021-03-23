@@ -91,10 +91,10 @@ export default class WebGLContent {
 
     camera.start()
 
-    postEffectBright.start(renderTarget1.texture)
-    postEffectBlurX.start(renderTarget2.texture, 1, 0)
-    postEffectBlurY.start(renderTarget3.texture, 0, 1)
-    postEffectBloom.start(renderTarget1.texture, renderTarget2.texture)
+    postEffectBright.start(renderTarget1.texture) // 把原始形态渲染成的 texture 传给 postEffectBright 处理
+    postEffectBlurX.start(renderTarget2.texture, 1, 0) // 把 postEffectBright 渲染成的 texture 传给 postEffectBlurX 处理
+    postEffectBlurY.start(renderTarget3.texture, 0, 1) // 把 postEffectBlurX 渲染成的 texture 传给 postEffectBlurY 处理
+    postEffectBloom.start(renderTarget1.texture, renderTarget2.texture) // 把 postEffectBright 和 postEffectBlurX 渲染成的 texture 传给 postEffectBloom 处理
   }
   play () {
     clock.start()
@@ -122,23 +122,23 @@ export default class WebGLContent {
     background.update(time)
 
     // Render the main scene to frame buffer.
-    renderer.setRenderTarget(renderTarget1)
+    renderer.setRenderTarget(renderTarget1) // 每个 postEffect 其实就是一个 THREE.Mesh，renderTarget1 保存原始形态，然后把原始形态渲染成的 texture 传给下面的 postEffectBright 处理
     renderer.render(scene, camera)
 
     // // Render the post effect.
     scenePE.add(postEffectBright)
-    renderer.setRenderTarget(renderTarget2)
+    renderer.setRenderTarget(renderTarget2) // renderTarget2 处理加光
     renderer.render(scenePE, cameraPE)
     scenePE.remove(postEffectBright)
     scenePE.add(postEffectBlurX)
-    renderer.setRenderTarget(renderTarget3)
+    renderer.setRenderTarget(renderTarget3) // renderTarget3 处理 X 模糊
     renderer.render(scenePE, cameraPE)
     scenePE.remove(postEffectBlurX)
     scenePE.add(postEffectBlurY)
-    renderer.setRenderTarget(renderTarget2)
+    renderer.setRenderTarget(renderTarget2) // renderTarget2 处理 Y 模糊
     renderer.render(scenePE, cameraPE)
     scenePE.remove(postEffectBlurY)
-    scenePE.add(postEffectBloom)
+    scenePE.add(postEffectBloom) // 直接基于上面的处理结果加 Bloom 效果，使用 “正交相机” 输出到屏幕
     renderer.setRenderTarget(null)
     renderer.render(scenePE, cameraPE)
     scenePE.remove(postEffectBloom)

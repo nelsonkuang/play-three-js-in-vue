@@ -208,6 +208,14 @@ const glsl = [
     }
   },
   {
+    path: '/glsl/image-effect/flower',
+    name: 'Flower',
+    component: () => import('@/views/glsl/image-effect/flower/index'),
+    meta: {
+      title: 'glsl 高级效果 落花'
+    }
+  },
+  {
     path: '/glsl/image-effect/particle',
     name: 'Particle',
     component: () => import('@/views/glsl/image-effect/particle/index'),
